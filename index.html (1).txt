@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikhil Khatale - AI/ML Engineer Portfolio</title>
+    <meta name="description" content="Portfolio of Nikhil Khatale, an AI/ML Engineer specializing in Generative AI, Cloud Technologies, and MLOps.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Roboto+Mono:wght@400;700&family=Exo+2:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FONT AWESOME CDN - REQUIRED FOR SKILL LOGOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            /* === Dark Code Editor Theme === */
+            --bg-color: #000000;          /* Deep Black */
+            --text-color: #d4d4d4;        /* Light Gray (VS Code Default Text) */
+            --heading-color: #ffffff;     /* White */
+            --accent-color: #00bcd4;      /* Cyan / Aqua */
+            --accent-hover-color: #4dd0e1; /* Lighter Cyan */
+            --secondary-accent-color: #ff9800; /* Orange (for contrast) */
+            --card-bg-color: #1a1a1a;     /* Very Dark Gray (Subtle Contrast) */
+            --border-color: #333333;      /* Dark Gray Border */
+            --code-comment-color: #6a9955; /* Green (like code comments) */
+            --code-string-color: #ce9178;  /* Orange-brown (like code strings) */
+            --transition-speed: 0.3s;
+            --border-radius: 4px; /* Slightly sharper corners */
+
+            /* Font Families */
+            --font-body: 'Roboto Mono', monospace; /* Monospace for code feel */
+            --font-heading: 'Exo 2', sans-serif;   /* Keep Exo 2 for main headings */
+            --font-code: 'Fira Code', monospace;   /* Alternative monospace */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            /* scroll-padding-top will be set in media query */
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7; /* Slightly more spacing */
+            overflow-x: hidden;
+            font-size: 15px; /* Base size for monospace */
+        }
+
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1; /* Adjusted opacity for black background */
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 25px; /* Slightly more padding */
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section (Front Page) */
+        #hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 50px 20px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInHero 1.5s ease-out;
+        }
+
+        #hero h1 {
+            font-family: var(--font-heading);
+            font-size: 4rem; /* Larger */
+            color: var(--heading-color);
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1.5px; /* More spacing */
+            text-shadow: 0 0 10px rgba(0, 188, 212, 0.3); /* Subtle glow */
+        }
+
+        #hero h2 {
+            font-family: var(--font-body); /* Use body font for subtitle */
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        #hero .contact-info {
+            margin-bottom: 35px;
+        }
+
+        #hero .contact-info a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 1rem;
+            transition: color var(--transition-speed) ease, text-shadow var(--transition-speed) ease;
+        }
+         #hero .contact-info a:hover {
+             color: var(--accent-hover-color);
+             text-shadow: 0 0 5px var(--accent-hover-color);
+         }
+        #hero .contact-info .icon {
+             margin-right: 8px;
+             color: var(--accent-color);
+             transition: color var(--transition-speed) ease;
+         }
+         #hero .contact-info a:hover .icon {
+            color: var(--accent-hover-color);
+         }
+
+        #hero .summary {
+            max-width: 750px;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+        /* Add a subtle comment-like style to summary */
+        #hero .summary::before {
+            content: "/*";
+            color: var(--code-comment-color);
+            font-weight: 600;
+            margin-right: 5px;
+            opacity: 0.7;
+        }
+        #hero .summary::after {
+            content: "*/";
+            color: var(--code-comment-color);
+            font-weight: 600;
+            margin-left: 5px;
+            opacity: 0.7;
+        }
+
+
+        /* View Selector Navigation */
+        #view-selector {
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 50px;
+            position: sticky; /* Sticky enabled by default */
+            top: 0;
+            z-index: 10; /* High z-index */
+            background-color: rgba(10, 10, 10, 0.85); /* Darker semi-transparent bg for sticky */
+            backdrop-filter: blur(5px); /* Frosted glass effect */
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .view-button {
+            font-family: var(--font-code); /* Use code font for buttons */
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--accent-color);
+            padding: 10px 25px; /* More padding */
+            margin: 8px; /* More margin */
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, transform var(--transition-speed) ease;
+            letter-spacing: 0.5px;
+            display: inline-block; /* Default display */
+            width: auto; /* Default width */
+            vertical-align: middle;
+        }
+
+        .view-button:hover {
+            background-color: rgba(0, 188, 212, 0.15); /* Faint accent bg on hover */
+            color: var(--heading-color);
+            box-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .view-button.active {
+            background-color: var(--accent-color);
+            color: var(--bg-color); /* Black text on active */
+            font-weight: 700;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 12px rgba(0, 188, 212, 0.7);
+        }
+
+        /* Content Sections Area */
+        #content-display {
+            padding: 0px 0 60px;
+        }
+
+        .content-section {
+            display: none;
+            padding: 40px 30px; /* More padding */
+            background-color: var(--card-bg-color);
+            border-radius: var(--border-radius);
+            margin-top: 30px;
+            animation: fadeInSection 0.6s ease-out forwards;
+            position: relative;
+            z-index: 1;
+             border: 1px solid var(--border-color);
+             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+        }
+
+        .content-section.visible {
+            display: block;
+        }
+
+        .content-section h3 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem; /* Larger */
+            color: var(--accent-color);
+            margin-bottom: 40px; /* More space */
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(0, 188, 212, 0.2);
+        }
+
+        /* Skills Section Styling */
+        #skills ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Wider items */
+            gap: 25px;
+            padding: 0;
+        }
+
+        #skills .skill-item {
+            display: flex;
+            align-items: center;
+            background-color: rgba(40, 40, 40, 0.5); /* Slightly lighter dark bg */
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-color);
+            transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, border-left-color var(--transition-speed) ease;
+            font-family: var(--font-code); /* Code font for skills */
+        }
+         #skills .skill-item:hover {
+             transform: translateX(5px); /* Shift right instead of scale */
+             background-color: rgba(50, 50, 50, 0.7);
+             border-left-color: var(--accent-hover-color);
+         }
+
+        #skills .skill-icon {
+            font-size: 1.9em;
+            margin-right: 18px;
+            color: var(--accent-color); /* Default icon color */
+            min-width: 35px;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+        #skills .skill-item:hover .skill-icon {
+             color: var(--accent-hover-color); /* Change icon color on hover too */
+         }
+
+         /* Specific Icon Colors (Override default accent) */
+         #skills .fa-python { color: #FFD43B; }
+         #skills .fa-java { color: #f89820; }
+         #skills .fa-docker { color: #0db7ed; }
+         #skills .fa-aws { color: #FF9900; }
+         #skills .fa-google { color: #4285F4; }
+         #skills .fa-microsoft, #skills .fa-windows { color: #00A4EF; }
+         #skills .fa-git-alt { color: #F1502F; }
+         #skills .fa-node-js { color: #68A063; }
+         #skills .fa-react { color: #61DAFB; }
+         #skills .fa-cogs { color: #aaaaaa; } /* Scikit-learn Grey */
+         #skills .fa-brain { color: #f06292; } /* Gen AI Pink */
+         #skills .fa-lightbulb { color: #fff176; } /* Deep Learning Yellow */
+         #skills .fa-database { color: #4db6ac; } /* Data Science Teal */
+         #skills .fa-robot { color: #9575cd; } /* ML Purple */
+         #skills .fa-comments { color: #4fc3f7; } /* Prompt Eng Light Blue */
+         #skills .fa-language { color: #e57373; } /* NLP Red */
+         #skills .fa-link { color: #81c784; } /* Langchain Green */
+         #skills .fa-tasks { color: #607d8b; } /* MLOps Blue Grey */
+         #skills .fa-dharmachakra { color: #3f51b5; } /* Kubernetes Indigo */
+         #skills .fa-cloud-upload-alt { color: #8d6e63; } /* Terraform Brown */
+         #skills .fa-server { color: #bdbdbd; } /* REST APIs Grey */
+         #skills .fa-infinity { color: #7e57c2; } /* Power Automate Deep Purple */
+
+
+        #skills .skill-name {
+            font-size: 1.05rem; /* Slightly larger */
+            font-weight: 600;
+            color: var(--heading-color);
+        }
+
+        /* Styling for other sections (Experience, Projects etc.) */
+        .item {
+            margin-bottom: 35px; /* More space */
+            padding-bottom: 25px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .item h4 {
+            font-family: var(--font-code); /* Code font for subheadings */
+            font-size: 1.4rem;
+            color: var(--heading-color);
+            margin-bottom: 8px;
+            font-weight: 600; /* Bolder */
+            letter-spacing: 0.5px;
+        }
+
+        /* Styling Meta Info like code strings */
+        .item .meta {
+            font-size: 1rem;
+            color: var(--code-string-color); /* Use code string color */
+            margin-bottom: 18px;
+            display: block;
+            font-weight: 400;
+            font-family: var(--font-code); /* Code font */
+        }
+        .item .meta::before {
+            content: "// "; /* Add comment slash */
+            color: var(--code-comment-color);
+            opacity: 0.7;
+        }
+
+        .item ul {
+             margin-left: 25px;
+             list-style: none;
+             padding-left: 10px;
+         }
+         .item li {
+             margin-bottom: 10px;
+             position: relative;
+             padding-left: 20px; /* More space for bullet */
+             color: var(--text-color);
+             line-height: 1.7;
+         }
+         /* Custom bullet point */
+          .item li::before {
+              content: '>'; /* Use '>' like a prompt */
+              position: absolute;
+              left: 0;
+              top: 1px;
+              color: var(--accent-color);
+              font-weight: bold;
+              font-size: 1.1em;
+          }
+
+        .project .tech-used {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            font-family: var(--font-code);
+        }
+        .project .tech-used strong {
+            color: var(--secondary-accent-color); /* Use secondary accent for tech keywords */
+            font-weight: 600;
+        }
+         /* Certifications simple list */
+         #certifications ul {
+             list-style: none;
+             padding-left: 5px;
+         }
+         #certifications li {
+              margin-bottom: 20px; /* More space */
+              font-size: 1.1rem;
+              padding-left: 10px;
+              border-left: 3px solid var(--border-color); /* Add left border */
+              transition: border-left-color var(--transition-speed) ease;
+         }
+          #certifications li:hover {
+              border-left-color: var(--accent-color);
+          }
+
+         #certifications .cert-name {
+              font-weight: 600;
+              color: var(--heading-color);
+              font-family: var(--font-code);
+         }
+         #certifications .cert-issuer {
+             display: block;
+             font-size: 0.9rem;
+             color: var(--code-string-color); /* Like code string */
+             margin-top: 4px;
+         }
+          #certifications .cert-issuer::before {
+             content: "// Issuer: ";
+             color: var(--code-comment-color);
+             opacity: 0.7;
+         }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--border-color); /* Dark grey, subtle */
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border-color);
+            font-family: var(--font-code);
+        }
+
+        /* Animations */
+        @keyframes fadeInHero {
+            from { opacity: 0; transform: translateY(-25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInSection {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design Adjustments */
+
+        /* --- Mobile Styles (768px and below) --- */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            #hero h1 { font-size: 3.2rem; }
+            #hero h2 { font-size: 1.2rem; }
+            .content-section h3 { font-size: 2rem; }
+            .item h4 { font-size: 1.3rem; }
+
+            /* --- Sticky Horizontal Scrolling Nav for Mobile --- */
+            #view-selector {
+                /* Keep sticky properties */
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background-color: rgba(10, 10, 10, 0.9); /* Slightly more opaque */
+                backdrop-filter: blur(5px);
+
+                /* Enable horizontal scrolling */
+                overflow-x: auto;      /* Show scrollbar if needed */
+                white-space: nowrap;   /* Prevent buttons from wrapping */
+                text-align: left;      /* Align buttons to the left */
+                padding: 15px 0;       /* Adjust vertical padding */
+                margin-bottom: 40px;   /* Adjust margin */
+
+                /* Improve scrolling experience */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+
+                /* Hide scrollbar visually */
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* Internet Explorer 10+ */
+            }
+            #view-selector::-webkit-scrollbar {
+                display: none; /* Safari and Chrome */
+            }
+
+            /* Adjust buttons for horizontal layout */
+            .view-button {
+                display: inline-block; /* Lay them out horizontally */
+                width: auto;           /* Width based on content */
+                margin: 0 6px;         /* Horizontal margin only */
+                padding: 9px 16px;     /* Adjust padding */
+                font-size: 0.95rem;
+                vertical-align: middle;/* Align nicely */
+            }
+
+            /* Add padding to the start/end inside the scrollable area */
+            #view-selector::before,
+            #view-selector::after {
+                content: '';
+                display: inline-block;
+                width: 10px; /* Adjust spacing as needed */
+            }
+
+             /* --- Prevent Content Hidden Under Sticky Nav --- */
+             html {
+                 /* Estimate nav height: padding + font-size + border. Adjust as needed! */
+                 /* Example: 15px*2 (padding) + ~20px (font) + 1px*2 (border) ~= 52px. Add buffer. */
+                 scroll-padding-top: 70px;
+             }
+
+             #skills ul {
+                 grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                 gap: 20px;
+            }
+        }
+
+        /* --- Smaller Mobile Styles (480px and below) --- */
+         @media (max-width: 480px) {
+             body { font-size: 13px; }
+             #hero { min-height: 80vh; padding: 30px 15px; }
+             #hero h1 { font-size: 2.5rem; letter-spacing: 1px; }
+             #hero h2 { font-size: 1.1rem; }
+             #hero .contact-info a { font-size: 0.9rem; display: block; margin: 8px 0; }
+             #hero .summary { font-size: 1rem; }
+
+             /* Adjust horizontal nav button style for very small screens */
+             .view-button {
+                 padding: 8px 14px;
+                 font-size: 0.9rem;
+                 margin: 0 5px;
+             }
+             #view-selector::before,
+             #view-selector::after {
+                 width: 8px; /* Slightly less padding */
+             }
+
+             #skills ul {
+                 grid-template-columns: 1fr; /* Single column */
+             }
+              .content-section { padding: 30px 20px; }
+              .content-section h3 { font-size: 1.8rem; }
+             .item h4 { font-size: 1.2rem; }
+             .item .meta { font-size: 0.9rem; }
+              .item ul { margin-left: 15px; padding-left: 5px; }
+              .item li { padding-left: 15px; }
+
+              /* Adjust scroll padding if nav height changes drastically */
+              html {
+                   scroll-padding-top: 65px; /* Re-evaluate if needed */
+               }
+        }
+
+         /* Reset scroll padding on larger screens */
+         @media (min-width: 769px) {
+             html {
+                 scroll-padding-top: 0;
+             }
+         }
+
+    </style>
+</head>
+<body>
+
+    <!-- Three.js Canvas -->
+    <div id="threejs-canvas"></div>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section id="hero">
+            <h1>NIKHIL KHATALE</h1>
+            <h2>AI/ML Full Stack Engineer // Generative AI & Cloud Innovator</h2>
+            <div class="contact-info">
+                <a href="tel:+91-9960890661" target="_blank" rel="noopener noreferrer"><i class="fas fa-phone icon"></i>+91-9960890661</a>
+                <a href="mailto:khatalenikhil1@gmail.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope icon"></i>khatalenikhil1@gmail.com</a>
+                <a href="https://www.linkedin.com/in/nikhilkhatale" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin icon"></i>LinkedIn</a>
+                <!-- Address removed -->
+            </div>
+            <p class="summary">
+                Versatile AI/ML Engineer with 3+ years crafting impactful solutions in Data Science, Generative AI, and Cloud Platforms (Azure/GCP). Expert in Python, Java, C++, and MLOps, bridging the gap between technical execution and business value. Passionate about deploying scalable, intelligent systems and driving innovation through AI.
+            </p>
+        </section>
+
+        <!-- View Selector Navigation -->
+        <nav id="view-selector">
+            <button class="view-button" data-target="#skills">Skills</button>
+            <button class="view-button" data-target="#experience">Experience</button>
+            <button class="view-button" data-target="#projects">Projects</button>
+            <button class="view-button" data-target="#education">Education</button>
+            <button class="view-button" data-target="#certifications">Certifications</button>
+        </nav>
+
+        <!-- Content Display Area -->
+        <main id="content-display">
+
+             <!-- Skills Section (Hidden by default) -->
+             <section id="skills" class="content-section">
+                 <h3>Technical Expertise</h3>
+                 <ul>
+                     <!-- Icons added -->
+                     <li class="skill-item"><i class="fas fa-brain skill-icon"></i> <span class="skill-name">Generative AI</span></li>
+                     <li class="skill-item"><i class="fas fa-lightbulb skill-icon"></i> <span class="skill-name">Deep Learning</span></li>
+                     <li class="skill-item"><i class="fas fa-database skill-icon"></i> <span class="skill-name">Data Science</span></li>
+                     <li class="skill-item"><i class="fas fa-robot skill-icon"></i> <span class="skill-name">Machine Learning</span></li>
+                     <li class="skill-item"><i class="fas fa-comments skill-icon"></i> <span class="skill-name">Prompt Engineering</span></li>
+                     <li class="skill-item"><i class="fas fa-language skill-icon"></i> <span class="skill-name">NLP (NLTK, Spacy)</span></li>
+                     <li class="skill-item"><i class="fas fa-link skill-icon"></i> <span class="skill-name">Langchain</span></li>
+                     <li class="skill-item"><i class="fab fa-python skill-icon"></i> <span class="skill-name">Python</span></li>
+                     <li class="skill-item"><i class="fab fa-java skill-icon"></i> <span class="skill-name">Java</span></li>
+                     <li class="skill-item"><i class="fas fa-code skill-icon"></i> <span class="skill-name">C++</span></li>
+                     <li class="skill-item"><i class="fab fa-react skill-icon"></i> <span class="skill-name">TensorFlow & PyTorch</span></li>
+                     <li class="skill-item"><i class="fas fa-cogs skill-icon"></i> <span class="skill-name">Scikit-learn</span></li>
+                     <li class="skill-item"><i class="fab fa-kaggle skill-icon"></i> <span class="skill-name">Hugging Face</span></li>
+                     <li class="skill-item"><i class="fab fa-microsoft skill-icon"></i> <span class="skill-name">Azure</span></li>
+                     <li class="skill-item"><i class="fab fa-google skill-icon"></i> <span class="skill-name">Google Cloud (GCP)</span></li>
+                     <li class="skill-item"><i class="fab fa-aws skill-icon"></i> <span class="skill-name">AWS</span></li>
+                     <li class="skill-item"><i class="fas fa-tasks skill-icon"></i> <span class="skill-name">MLOps</span></li>
+                     <li class="skill-item"><i class="fab fa-docker skill-icon"></i> <span class="skill-name">Docker</span></li>
+                     <li class="skill-item"><i class="fas fa-dharmachakra skill-icon"></i> <span class="skill-name">Kubernetes</span></li>
+                     <li class="skill-item"><i class="fas fa-cloud-upload-alt skill-icon"></i> <span class="skill-name">Terraform</span></li>
+                     <li class="skill-item"><i class="fab fa-git-alt skill-icon"></i> <span class="skill-name">Git & CI/CD</span></li>
+                     <li class="skill-item"><i class="fas fa-server skill-icon"></i> <span class="skill-name">REST APIs / Flask</span></li>
+                     <li class="skill-item"><i class="fab fa-node-js skill-icon"></i> <span class="skill-name">Node.js</span></li>
+                     <li class="skill-item"><i class="fas fa-infinity skill-icon"></i> <span class="skill-name">Power Automate</span></li>
+                 </ul>
+             </section>
+
+            <!-- Experience Section (Hidden by default) -->
+            <section id="experience" class="content-section">
+                <h3>Professional Journey</h3>
+                 <div class="item">
+                    <h4>AI/ML Full Stack Engineer</h4>
+                    <span class="meta">Accenture | Dec 2022 - Present</span>
+                    <ul>
+                        <li>Engineered and deployed robust GPT-powered AI solutions, converting complex business requirements into efficient Generative AI models.</li>
+                        <li>Developed an AI-driven SEC reporting system (LangChain & RAG), enhancing accuracy and compliance through automated report generation.</li>
+                        <li>Managed multi-cloud deployments (GCP/Azure) using Terraform for infrastructure-as-code, ensuring scalability and seamless integration.</li>
+                        <li>Streamlined MLOps pipelines with Terraform, Git, and CI/CD automation, enabling reliable and frequent model updates in production.</li>
+                        <li>Integrated Power Automate workflows for RAG use cases, automating data processes and boosting operational efficiency.</li>
+                    </ul>
+                </div>
+                 <div class="item">
+                    <h4>Data Science Intern</h4>
+                    <span class="meta">CodeSpyder Technologies Pvt | (Add Dates Here)</span> <!-- Placeholder for dates -->
+                     <ul>
+                         <li>Contributed to Data Science projects involving LLMs and AI in healthcare.</li>
+                         <li>Assisted in designing a neural network-based disease prediction system.</li>
+                         <li>Developed NLP sentiment models achieving 85% accuracy improvement on movie reviews.</li>
+                         <li>Built a stock prediction model improving forecast reliability by 20% using time-series analysis.</li>
+                         <li>Implemented a CNN for handwritten digit recognition, applying deep learning concepts.</li>
+                     </ul>
+                </div>
+            </section>
+
+            <!-- Projects Section (Hidden by default) -->
+            <section id="projects" class="content-section">
+                <h3>Personal Projects</h3>
+                <div class="item project">
+                    <h4>AI-driven Healthcare Diagnostic System</h4>
+                    <span class="meta">Jan 2022 - Jul 2022</span>
+                    <p>Created a predictive system using symptoms, CT scans, and X-rays for disease diagnosis, achieving 87% accuracy on validated datasets.</p>
+                    <p class="tech-used"><strong>Tech:</strong> Python, NumPy, Pandas, TensorFlow (CNN), Scikit-learn, Flask</p>
+                </div>
+                <div class="item project">
+                    <h4>MBTI Personality Classifier</h4>
+                    <span class="meta">2021</span>
+                    <p>Built an ML system classifying psychological traits from text, employing NLP and Random Forest to derive behavioral insights.</p>
+                    <p class="tech-used"><strong>Tech:</strong> Python, Scikit-learn, NLTK, Spacy</p>
+                </div>
+            </section>
+
+            <!-- Education Section (Hidden by default) -->
+            <section id="education" class="content-section">
+                <h3>Academic Background</h3>
+                <div class="item">
+                     <h4>Bachelor of Engineering - Information Technology</h4>
+                     <span class="meta">Savitribai Phule Pune University, India | 2022</span>
+                     <p>CGPA: 9.4 / 10.0. Strong foundation in computer science, software engineering, and data structures.</p>
+                 </div>
+                 <div class="item">
+                     <h4>Diploma - Information Technology</h4>
+                     <span class="meta">Government Polytechnic Mumbai, India | 2016</span>
+                     <p>Achieved 81%. Focused on practical IT skills and programming fundamentals.</p>
+                 </div>
+            </section>
+
+            <!-- Certifications Section (Hidden by default) -->
+            <section id="certifications" class="content-section">
+                <h3>Certifications & Credentials</h3>
+                 <ul>
+                     <li>
+                         <span class="cert-name">Microsoft Certified: Azure AI Engineer Associate (AI-102)</span>
+                         <span class="cert-issuer">Microsoft</span>
+                     </li>
+                     <li>
+                         <span class="cert-name">Microsoft Certified: Azure Data Fundamentals (DP-900)</span>
+                          <span class="cert-issuer">Microsoft</span>
+                     </li>
+                      <li>
+                         <span class="cert-name">Microsoft Certified: Azure AI Fundamentals (AI-900)</span>
+                          <span class="cert-issuer">Microsoft</span>
+                     </li>
+                     <li>
+                         <span class="cert-name">Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC-900)</span>
+                         <span class="cert-issuer">Microsoft</span>
+                     </li>
+                      <!-- Add AZ-900 if applicable
+                      <li>
+                         <span class="cert-name">Microsoft Certified: Azure Fundamentals (AZ-900)</span>
+                         <span class="cert-issuer">Microsoft</span>
+                     </li>
+                      -->
+                 </ul>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>&copy; <span id="current-year"></span> Nikhil Khatale. // Exploring the frontiers of AI.</p>
+        </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Embedded JavaScript (No changes needed here for sticky nav) -->
+    <script>
+        // --- Footer Year Update ---
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // --- View Toggling Logic ---
+        const viewButtons = document.querySelectorAll('.view-button');
+        const contentSections = document.querySelectorAll('.content-section');
+        const contentDisplayArea = document.getElementById('content-display');
+
+        viewButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const targetSection = document.querySelector(targetId);
+
+                // Deactivate all buttons (Optional: keep current active visually)
+                // viewButtons.forEach(btn => btn.classList.remove('active'));
+                contentSections.forEach(section => section.classList.remove('visible'));
+
+                // Activate the clicked button and show the target section
+                // Deactivate others first if you want only one active button visible
+                 viewButtons.forEach(btn => btn.classList.remove('active'));
+                 button.classList.add('active');
+
+                if (targetSection) {
+                    targetSection.classList.add('visible');
+                    // Scroll the section into view smoothly
+                    // The 'scroll-padding-top' CSS property handles the offset
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start'});
+                }
+            });
+        });
+
+        // --- Three.js Background Animation ---
+        let scene, camera, renderer, lines;
+        const canvasContainer = document.getElementById('threejs-canvas');
+
+        function initThreeJS() {
+            // Check if container exists
+            if (!canvasContainer) {
+                console.error("Three.js canvas container not found.");
+                return;
+            }
+
+            try {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+                camera.position.z = 5;
+
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setClearColor(0x000000, 0);
+                canvasContainer.appendChild(renderer.domElement);
+
+                // Get the NEW accent color from CSS variables
+                const accentColorCSS = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+                const gridColor = new THREE.Color(accentColorCSS);
+
+
+                 const material = new THREE.LineBasicMaterial({
+                     color: gridColor,
+                     transparent: true,
+                     opacity: 0.35 // Slightly increased opacity for the darker theme
+                 });
+
+                 const size = 50;
+                 const divisions = 40;
+                 const points = [];
+                 const step = size / divisions;
+                 const halfSize = size / 2;
+
+                 for (let i = 0; i <= divisions; i++) {
+                     points.push(new THREE.Vector3(-halfSize + i * step, -halfSize, 0));
+                     points.push(new THREE.Vector3(-halfSize + i * step, halfSize, 0));
+                     points.push(new THREE.Vector3(-halfSize, -halfSize + i * step, 0));
+                     points.push(new THREE.Vector3(halfSize, -halfSize + i * step, 0));
+                 }
+
+                 const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                 lines = new THREE.LineSegments(geometry, material);
+                 lines.rotation.x = Math.PI / 4.5; // Adjusted tilt slightly
+                 scene.add(lines);
+
+
+                window.addEventListener('resize', onWindowResize, false);
+                animateThreeJS();
+
+             } catch (error) {
+                console.error("Error initializing Three.js:", error);
+                // Optionally hide the canvas or show a fallback
+                if (canvasContainer) canvasContainer.style.display = 'none';
+            }
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return; // Add check
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        let mouseX = 0, mouseY = 0;
+        const mouseSensitivity = 0.08; // Slightly reduced sensitivity
+        document.addEventListener('mousemove', (event) => {
+             mouseX = ((event.clientX / window.innerWidth) * 2 - 1) * mouseSensitivity;
+             mouseY = (-(event.clientY / window.innerHeight) * 2 + 1) * mouseSensitivity;
+         });
+
+
+        function animateThreeJS() {
+             if (!renderer || !scene || !camera || !lines) { // Add check
+                 requestAnimationFrame(animateThreeJS); // Still request next frame
+                 return;
+             }
+             requestAnimationFrame(animateThreeJS);
+             const time = Date.now() * 0.00008; // Slowed down rotation speed
+
+             lines.rotation.z = time * 0.4;
+             // Make mouse follow effect smoother/slower
+             lines.rotation.y += (mouseX - lines.rotation.y) * 0.015;
+             lines.rotation.x += (-mouseY - lines.rotation.x + Math.PI / 4.5) * 0.015; // Match initial tilt
+
+
+             renderer.render(scene, camera);
+        }
+
+        // Wait for DOM content and CSS to potentially load before init
+         if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initThreeJS);
+         } else {
+            initThreeJS(); // DOMContentLoaded has already fired
+         }
+
+
+    </script>
+
+</body>
+</html>
